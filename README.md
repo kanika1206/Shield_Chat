@@ -1,12 +1,12 @@
-\# 🛡️ ShieldChat v1.0
+\# 🛡️ ShieldChat
 
 
 
-\*\*Secure, Multi-threaded, End-to-End Encrypted Messaging System\*\*
+\*\*End-to-End Encrypted Socket-Based Messaging Protocol\*\*
 
 
 
-ShieldChat is a high-performance messaging suite demonstrating a Hybrid Cryptosystem. It combines RSA (secure key exchange) with AES-CTR (fast encryption) to enable secure real-time communication.
+ShieldChat is a secure peer-to-peer messaging system implementing a custom Zero-Trust cryptographic protocol from scratch. It eliminates reliance on high-level security abstractions by directly integrating RSA, AES-CTR, and HKDF to establish a fully secure communication channel over raw sockets.
 
 
 
@@ -14,21 +14,25 @@ ShieldChat is a high-performance messaging suite demonstrating a Hybrid Cryptosy
 
 
 
-\## 🚀 Key Features
+\## 🚀 Features
 
 
 
-\- 🔐 Hybrid Encryption (RSA + AES-256 CTR)
+\- 🔐 \*\*End-to-End Encryption (E2EE)\*\* using AES-128-CTR  
 
-\- ⚡ Multi-threaded server (handles multiple clients)
+\- 🔑 \*\*Custom RSA-OAEP Key Exchange\*\* for secure session initiation  
 
-\- 🛡️ Replay attack protection using nonces
+\- 🧾 \*\*Mutual Authentication\*\* via custom X.509 PKI  
 
-\- 🔒 Zero-knowledge server (true E2EE)
+\- 🛡️ \*\*Replay Attack Protection\*\* using cryptographic nonces  
 
-\- 🎨 Modern UI built with \*\*CustomTkinter\*\*
+\- ⚡ \*\*Zero-Trust Architecture\*\* (no reliance on TLS/third-party wrappers)  
 
-\- 📊 Real-time system logging
+\- 🔄 \*\*HKDF-based Key Derivation\*\* for secure session keys  
+
+\- 🧵 \*\*Multi-threaded Architecture\*\* for non-blocking communication  
+
+\- 🎨 \*\*Modern GUI\*\* built using CustomTkinter  
 
 
 
@@ -42,13 +46,23 @@ ShieldChat is a high-performance messaging suite demonstrating a Hybrid Cryptosy
 
 \- \*\*Language\*\*: Python  
 
-\- \*\*UI Framework\*\*: CustomTkinter  
+\- \*\*UI\*\*: CustomTkinter  
 
-\- \*\*Cryptography\*\*: RSA, AES-CTR  
+\- \*\*Cryptography\*\*:
+
+&#x20; - RSA (OAEP)
+
+&#x20; - AES-128 (CTR Mode)
+
+&#x20; - HMAC-SHA256
+
+&#x20; - HKDF (SHA-256)
+
+\- \*\*Networking\*\*: TCP Sockets  
 
 \- \*\*Environment\*\*: Virtual Environment (venv)  
 
-\- \*\*Platform Tested\*\*: Linux (Ubuntu)
+\- \*\*Platform Tested\*\*: Linux  
 
 
 
@@ -56,19 +70,117 @@ ShieldChat is a high-performance messaging suite demonstrating a Hybrid Cryptosy
 
 
 
-\## 📦 Installation \& Setup
+\## 🔐 Protocol Overview
 
 
 
-\### 🔹 1. Clone Repository
+\### Secure Handshake
+
+
+
+1\. Client initiates connection  
+
+2\. Server sends X.509 certificate  
+
+3\. Client sends X.509 certificate  
+
+4\. Server sends nonce (Ns)  
+
+5\. Client sends:
+
+&#x20;  - Nc (client nonce)  
+
+&#x20;  - Encrypted Pre-Master Secret (RSA)  
+
+&#x20;  - Digital signature  
+
+
+
+✔ Secure channel established
+
+
+
+\---
+
+
+
+\## 🔑 Key Derivation (HKDF)
+
+
+
+\- Input: Pre-Master Secret + (Nc || Ns)  
+
+\- Output:
+
+&#x20; - AES-128 Key (16 bytes)  
+
+&#x20; - HMAC-SHA256 Key (32 bytes)  
+
+
+
+\---
+
+
+
+\## 📡 Secure Messaging Pipeline
+
+
+
+Plaintext → AES-CTR Encryption → Ciphertext → HMAC → Transmission  
+
+
+
+\- AES-CTR ensures \*\*low latency \& no padding overhead\*\*  
+
+\- HMAC guarantees \*\*integrity and authenticity\*\*
+
+
+
+\---
+
+
+
+\## 🧵 Architecture
+
+
+
+\### Main Thread
+
+\- Handles GUI (CustomTkinter)  
+
+\- Captures user input  
+
+\- Updates logs in real-time  
+
+
+
+\### Background Threads
+
+\- `handshake()` → RSA + key exchange  
+
+\- `recv\_thread()` → receives \& verifies messages  
+
+
+
+✔ Fully asynchronous, non-blocking system  
+
+
+
+\---
+
+
+
+\## 📦 Setup
+
+
+
+\### 1. Clone Repository
 
 ```bash
 
 git clone https://github.com/kanika1206/Shield\_Chat.git
 
 cd Shield\_Chat
-
-
 
 \### 🔹 2. Create Virtual Environment
 
